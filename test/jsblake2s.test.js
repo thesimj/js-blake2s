@@ -4,7 +4,8 @@
  */
 
 import test from "tape";
-import JSBlake2s from "../lib/jsblake2s";
+import JSBlake2s from "../lib/jsblake2s.min";
+import verter from "./verter";
 
 /**
  * General Test
@@ -37,6 +38,27 @@ test("Function 'digest' should exists", tape => {
   const blake = new JSBlake2s();
 
   tape.assert(typeof blake.digest === "function");
+
+  tape.end();
+});
+
+/**
+ * HASH
+ */
+
+test("Should hash 'data' and produce proper result. Default params", tape => {
+  "use strict";
+
+  for (let i = 0; i < verter.size; i++) {
+    const {len, key, salt, personalization, data} = verter.input[i];
+    const _out = verter.output[i];
+
+    // hash //
+    const blake = new JSBlake2s(len, key, salt, personalization);
+
+    // assert //
+    tape.deepEqual(blake.update(data).digest(), _out, `Test vector index ${i}`);
+  }
 
   tape.end();
 });
