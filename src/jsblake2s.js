@@ -73,7 +73,7 @@ class JSBlake2s {
    * Salt should be max 8 byte long
    * Personalization should be max 8 byte long
    *
-   * @param {int} digestLength
+   * @param {number} digestLength
    * @param {Uint8Array|null} key
    * @param {Uint8Array|null} salt
    * @param {Uint8Array|null} personalization
@@ -90,26 +90,16 @@ class JSBlake2s {
       ? [this._get32(personalization, 0), this._get32(personalization, 4)]
       : [0, 0];
 
-    // Init param
-    const param = [
-      this._get32([digestLength, keyLength, 0x01, 0x01], 0),
-      0,
-      0,
-      0,
-      ...salt,
-      ...personalization,
-    ];
-
     // Init context
     this._hash = [
-      _BLAKE2S_IV[0] ^ param[0],
-      _BLAKE2S_IV[1] ^ param[1],
-      _BLAKE2S_IV[2] ^ param[2],
-      _BLAKE2S_IV[3] ^ param[3],
-      _BLAKE2S_IV[4] ^ param[4],
-      _BLAKE2S_IV[5] ^ param[5],
-      _BLAKE2S_IV[6] ^ param[6],
-      _BLAKE2S_IV[7] ^ param[7],
+      _BLAKE2S_IV[0] ^ this._get32([digestLength, keyLength, 0x01, 0x01], 0),
+      _BLAKE2S_IV[1],
+      _BLAKE2S_IV[2],
+      _BLAKE2S_IV[3],
+      _BLAKE2S_IV[4] ^ salt[0],
+      _BLAKE2S_IV[5] ^ salt[1],
+      _BLAKE2S_IV[6] ^ personalization[0],
+      _BLAKE2S_IV[7] ^ personalization[1],
     ];
 
     // Buffer block with 64 elements //
@@ -196,13 +186,13 @@ class JSBlake2s {
    * @private
    */
   _get32(data, index) {
-    return data[index] ^ (data[index + 1] << 8) ^ (data[index + 2] << 16) ^ (data[index + 3] << 24);
+    return data[index++] ^ (data[index++] << 8) ^ (data[index++] << 16) ^ (data[index] << 24);
   }
 
   /**
    * BLAKE2-S gamma mixin function
    *
-   * @param {Array} result
+   * @param {[number]} result
    * @param {number} a
    * @param {number} b
    * @param {number} c
