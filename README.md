@@ -1,6 +1,12 @@
 # JS-Blake2s
 Pure JavaScript BLAKE2s cryptographic hash function
 
+[![Build Status](https://travis-ci.org/thesimj/js-blake2s.svg?branch=master)](https://travis-ci.org/thesimj/js-blake2s)
+[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
+[![browser support](https://ci.testling.com/thesimj/js-blake2s.png)
+](https://ci.testling.com/thesimj/js-hexi)
+
+
 ## BLAKE2 — fast secure hashing
 BLAKE2 is a cryptographic hash function faster than MD5, SHA-1, SHA-2, and SHA-3, yet is at least as secure as the latest standard SHA-3. BLAKE2 had been adopted by many projects due to its high speed, security, and simplicity.
 
