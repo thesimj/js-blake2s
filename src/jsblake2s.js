@@ -69,8 +69,8 @@ const _BLAKE2S_SIGMA = [
 class JSBlake2s {
   /**
    * Create new instance of BLAKE2-S
-   * With key and personalization
-   * Salt should be max 8 byte long
+   * Key should be max 32 byte long
+   * Salt should be 8 byte long
    * Personalization should be max 8 byte long
    *
    * @param {number} digestLength
@@ -79,6 +79,23 @@ class JSBlake2s {
    * @param {Uint8Array|null} personalization
    */
   constructor (digestLength = 32, key = null, salt = null, personalization = null) {
+    // checks types //
+    if (typeof digestLength !== 'number') {
+      throw new Error('Digest length should be number')
+    }
+
+    if (key !== null && !(key instanceof Uint8Array && key.length <= 32)) {
+      throw new Error('Key should be Uint8Array with 32 byte long or null')
+    }
+
+    if (salt !== null && !(salt instanceof Uint8Array && salt.length === 8)) {
+      throw new Error('Salt should be Uint8Array with 8 byte long or null')
+    }
+
+    if (personalization !== null && !(personalization instanceof Uint8Array && personalization.length === 8)) {
+      throw new Error('Personalization should be Uint8Array with 8 byte long or null')
+    }
+
     const keyLength = key ? key.length : 0
 
     salt = salt
