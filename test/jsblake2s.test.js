@@ -4,7 +4,7 @@
  */
 
 import test from 'tape'
-import JSBlake2s from '../lib/jsblake2s.min'
+import JSBlake2s from '../src/jsblake2s'
 import verter from './verter'
 
 /**
@@ -37,6 +37,62 @@ test("Function 'digest' should exists", tape => {
   const blake = new JSBlake2s()
 
   tape.assert(typeof blake.digest === 'function')
+
+  tape.end()
+})
+
+/**
+ * Errors
+ */
+
+test('If digest length not number, should error be thrown', tape => {
+  'use strict'
+
+  tape.throws(() => {
+    new JSBlake2s(null)
+  }, /Digest length should be number/)
+
+  tape.end()
+})
+
+test('If key not Uint8Array and length more then 32 byte, should error be thrown', tape => {
+  'use strict'
+
+  tape.throws(() => {
+    new JSBlake2s(32, 100)
+  }, /Key should be Uint8Array with 32 byte long or null/)
+
+  tape.throws(() => {
+    new JSBlake2s(32, new Uint8Array(33))
+  }, /Key should be Uint8Array with 32 byte long or null/)
+
+  tape.end()
+})
+
+test('If salt not Uint8Array and length more then 8 byte, should error be thrown', tape => {
+  'use strict'
+
+  tape.throws(() => {
+    new JSBlake2s(32, new Uint8Array(32), 9)
+  }, /Salt should be Uint8Array with 8 byte long or null/)
+
+  tape.throws(() => {
+    new JSBlake2s(32, new Uint8Array(32), new Uint8Array(9))
+  }, /Salt should be Uint8Array with 8 byte long or null/)
+
+  tape.end()
+})
+
+test('If personalization not Uint8Array and length more then 8 byte, should error be thrown', tape => {
+  'use strict'
+
+  tape.throws(() => {
+    new JSBlake2s(32, new Uint8Array(32), new Uint8Array(8), 9)
+  }, /Personalization should be Uint8Array with 8 byte long or null/)
+
+  tape.throws(() => {
+    new JSBlake2s(32, new Uint8Array(32), new Uint8Array(8), new Uint8Array(9))
+  }, /Personalization should be Uint8Array with 8 byte long or null/)
 
   tape.end()
 })
