@@ -1,8 +1,8 @@
 {
   "name": "js-blake2s",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pure JavaScript BLAKE2s cryptographic hash function",
-  "main": "src/jsblake2s.js",
+  "main": "lib/jsblake2s.min.js",
   "directories": {
     "test": "test",
     "src": "src",

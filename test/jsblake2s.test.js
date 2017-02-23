@@ -4,7 +4,7 @@
  */
 
 import test from 'tape'
-import JSBlake2s from '../src/jsblake2s'
+import JSBlake2s from '../lib/jsblake2s.min'
 import verter from './verter'
 
 /**
